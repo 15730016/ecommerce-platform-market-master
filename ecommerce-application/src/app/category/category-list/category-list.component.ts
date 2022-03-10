@@ -16,16 +16,14 @@ export class CategoryListComponent implements OnInit {
   selectedFiles?: FileList;
   progressInfos: any[] = [];
   message: string[] = [];
-  previews: string[] = [];
   fileInfos?: Observable<any>;
   closeResult: string = '';
-  // url: string = '';
 
   constructor(public productService: ProductService,
               private modalService: NgbModal) { }
 
   ngOnInit(): void {
-    this.getCategory({ page: "0", size: "5" });
+    this.getCategory({ page: "0", size: "5", deleted: false });
   }
 
   private getCategory(request: any) {

@@ -3,16 +3,15 @@ package com.sintkit.ecommerceservice.service.product;
 import com.sintkit.ecommerceservice.dto.CategoryRequest;
 import com.sintkit.ecommerceservice.exception.ResourceNotFoundException;
 import com.sintkit.ecommerceservice.model.Category;
-import com.sintkit.ecommerceservice.model.CategoryImageDB;
-import com.sintkit.ecommerceservice.model.ImageDB;
 import com.sintkit.ecommerceservice.repository.CategoryRepository;
-import com.sintkit.ecommerceservice.repository.ImageDBRepository;
+import org.hibernate.Filter;
+import org.hibernate.Session;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
 import java.util.Optional;
 
 import static com.sintkit.ecommerceservice.config.AppConstants.ID;
@@ -21,11 +20,11 @@ import static com.sintkit.ecommerceservice.config.AppConstants.ID;
 public class CategoryServiceImpl implements CategoryService{
 
     private final CategoryRepository categoryRepository;
-    private final ImageDBRepository imageRepository;
+    private final EntityManager entityManager;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository, ImageDBRepository imageRepository) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, EntityManager entityManager) {
         this.categoryRepository = categoryRepository;
-        this.imageRepository = imageRepository;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -55,8 +54,17 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public Page<Category> findAll(Pageable pageable) {
-        return categoryRepository.findAll(pageable);
+    public Page<Category> findAll(Pageable pageable, boolean isDeleted) {
+        return categoryRepository.findAllByDeleted(pageable, isDeleted);
+    }
+
+    public Iterable<Category> findAll(boolean isDeleted){
+        Session session = entityManager.unwrap(Session.class);
+        Filter filter = session.enableFilter("deletedCategoryFilter");
+        filter.setParameter("isDeleted", isDeleted);
+        Iterable<Category> categories =  categoryRepository.findAll();
+        session.disableFilter("deletedCategoryFilter");
+        return categories;
     }
 
 }

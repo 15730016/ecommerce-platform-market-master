@@ -4,9 +4,7 @@ import com.sintkit.ecommerceservice.config.AppConstants;
 import com.sintkit.ecommerceservice.dto.*;
 import com.sintkit.ecommerceservice.exception.ResourceNotFoundException;
 import com.sintkit.ecommerceservice.model.*;
-import com.sintkit.ecommerceservice.repository.CategoryImageDBRepository;
 import com.sintkit.ecommerceservice.service.image.CategoryImageDBService;
-import com.sintkit.ecommerceservice.service.image.ImageDBStorageService;
 import com.sintkit.ecommerceservice.service.product.CategoryService;
 import com.sintkit.ecommerceservice.service.product.ColorService;
 import com.sintkit.ecommerceservice.service.product.ProductService;
@@ -28,7 +26,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Date;
-import java.util.Optional;
 
 import static com.sintkit.ecommerceservice.config.AppConstants.ID;
 
@@ -41,14 +38,12 @@ public class ProductController {
 	private final CategoryService categoryService;
 	private final ColorService colorService;
 	private final SizeService sizeService;
-	private final ImageDBStorageService imageStorageService;
-	private final CategoryImageDBRepository categoryImageDBRepository;
 	private final CategoryImageDBService categoryImageDBService;
 
 	@Bean
 	public MultipartResolver multipartResolver() {
 		CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
-		commonsMultipartResolver.setMaxUploadSize(100000);
+		commonsMultipartResolver.setMaxUploadSize(5242880);
 		commonsMultipartResolver.setDefaultEncoding("UTF-8");
 		return commonsMultipartResolver;
 	}
@@ -100,9 +95,10 @@ public class ProductController {
 
 	@GetMapping("/category")
 	public Page<Category> getCategoryList(@RequestParam(defaultValue = "0") int page,
-										  @RequestParam(defaultValue = "3") int size) {
+										  @RequestParam(defaultValue = "3") int size,
+										  @RequestParam(value = "isDeleted", required = false, defaultValue = "false") boolean isDeleted) {
 		Pageable paging = PageRequest.of(page, size);
-		return categoryService.findAll(paging);
+		return categoryService.findAll(paging, isDeleted);
 	}
 
 	@GetMapping("/category/{id}")
@@ -153,6 +149,11 @@ public class ProductController {
 			categoryService.deleteById(id);
 			return ResponseEntity.ok().body(new ApiResponse(true, AppConstants.SUCCESS));
 		}).orElseThrow(() -> new ResourceNotFoundException("Category ", ID, id));
+	}
+
+	@GetMapping("/category/deleted")
+	public Iterable<Category> findAll(@RequestParam(value = "isDeleted", required = false, defaultValue = "true") boolean isDeleted) {
+		return categoryService.findAll(isDeleted);
 	}
 
 	// ---- Product Color---- //

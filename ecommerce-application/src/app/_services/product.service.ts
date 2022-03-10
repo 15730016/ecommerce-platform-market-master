@@ -44,6 +44,11 @@ export class ProductService {
     return this.httpClient.get(AppConstants.MANAGEMENT_API + 'category',{params});
   }
 
+  getListDeleted(request: any): Observable<any> {
+    const params = request;
+    return this.httpClient.get(AppConstants.MANAGEMENT_API + 'category/deleted', {params});
+  }
+
   getImage(name: any): Observable<any> {
     return this.httpClient.get(AppConstants.MANAGEMENT_API + 'images/' + name)
   }

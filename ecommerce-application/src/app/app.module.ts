@@ -28,6 +28,7 @@ import { ColorCreateEditComponent } from './color/color-create-edit/color-create
 import { SizeCreateEditComponent } from './size/size-create-edit/size-create-edit.component';
 import { SizeListComponent } from './size/size-list/size-list.component';
 import { SizeDetailComponent } from './size/size-detail/size-detail.component';
+import { CategoryListDeletedComponent } from './category/category-list-deleted/category-list-deleted.component';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: "right",
@@ -62,7 +63,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     ColorCreateEditComponent,
     SizeCreateEditComponent,
     SizeListComponent,
-    SizeDetailComponent
+    SizeDetailComponent,
+    CategoryListDeletedComponent
   ],
   imports: [
     BrowserModule,

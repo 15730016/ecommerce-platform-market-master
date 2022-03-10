@@ -3,7 +3,6 @@ package com.sintkit.ecommerceservice.service;
 import com.sintkit.ecommerceservice.model.CategoryImageDB;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -18,5 +17,7 @@ public interface ServiceMultipartFile<T, R> {
 
 	Optional<T> findById(Long id);
 
-	Page<T> findAll(Pageable pageable);
+	Page<T> findAll(Pageable pageable, boolean isDeleted);
+
+	Iterable<T> findAll(boolean isDeleted);
 }

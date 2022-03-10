@@ -6,11 +6,14 @@ import com.sintkit.ecommerceservice.model.Category;
 import com.sintkit.ecommerceservice.model.CategoryImageDB;
 import com.sintkit.ecommerceservice.repository.CategoryImageDBRepository;
 import com.sintkit.ecommerceservice.util.ImageDBUtility;
+import org.hibernate.Filter;
+import org.hibernate.Session;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Objects;
@@ -23,9 +26,11 @@ import static com.sintkit.ecommerceservice.config.AppConstants.ID;
 public class CategoryImageDBServiceImpl implements CategoryImageDBService {
 
     private final CategoryImageDBRepository categoryImageDBRepository;
+    private final EntityManager entityManager;
 
-    public CategoryImageDBServiceImpl(CategoryImageDBRepository categoryImageDBRepository) {
+    public CategoryImageDBServiceImpl(CategoryImageDBRepository categoryImageDBRepository, EntityManager entityManager) {
         this.categoryImageDBRepository = categoryImageDBRepository;
+        this.entityManager = entityManager;
     }
 
     public Optional<CategoryImageDB> findById(Long id) {
@@ -80,5 +85,14 @@ public class CategoryImageDBServiceImpl implements CategoryImageDBService {
 
     public Stream<CategoryImageDB> getAllImageDB() {
         return categoryImageDBRepository.findAll().stream();
+    }
+
+    public Iterable<CategoryImageDB> findAll(boolean isDeleted){
+        Session session = entityManager.unwrap(Session.class);
+        Filter filter = session.enableFilter("deletedCategoryImageDBFilter");
+        filter.setParameter("isDeleted", isDeleted);
+        Iterable<CategoryImageDB> categoryImageDBList =  categoryImageDBRepository.findAll();
+        session.disableFilter("deletedCategoryImageDBFilter");
+        return categoryImageDBList;
     }
 }

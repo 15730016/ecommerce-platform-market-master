@@ -6,10 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.List;
 
 @Entity
@@ -18,11 +20,16 @@ import java.util.List;
 @Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
+@SQLDelete(sql = "UPDATE category SET deleted = true WHERE id=?")
+@FilterDef(name = "deletedCategoryFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
+@Filter(name = "deletedCategoryFilter", condition = "deleted = :isDeleted")
 public class Category extends BaseEntity{
 
     private static final long serialVersionUID = 3837851602714898259L;
 
     private String categoryName;
+
+    private boolean deleted = Boolean.FALSE;
 
     @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL)
