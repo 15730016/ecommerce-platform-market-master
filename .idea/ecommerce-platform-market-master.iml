@@ -2,7 +2,14 @@
 <module type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/ecommerce-application/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/ecommerce-application/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/ecommerce-application/.angular" />
+      <excludeFolder url="file://$MODULE_DIR$/ecommerce-application/.angular/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/ecommerce-application/src/app/category/category-list-deleted" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

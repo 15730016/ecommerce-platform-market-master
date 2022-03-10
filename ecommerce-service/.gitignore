@@ -37,3 +37,4 @@ build/
 /.gitignore
 /pom.xml
 /src/
+!/src/main/resources/templates/mail/images/
