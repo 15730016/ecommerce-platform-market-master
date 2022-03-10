@@ -1,0 +1,53 @@
+<div class="card card-container form-category">
+  <div class="row m-0 mt-3 justify-content">
+    <h5 class="text-center">{{ categoryId ? 'Cập nhật' : 'Tạo mới'}} Danh mục sản phẩm</h5>
+    <span class="border-bottom border-danger col-10"></span>
+  </div>
+  <div class="row m-0 mb-3 mt-3">
+    <form [formGroup]="categoryForm" class="col-12">
+      <div class="row m-0">
+        <div class="col-6">
+          <div class="row m-0 text-center">
+            <div class="col-12">
+              <img [src]="previews" class="preview" id="view-create-image" alt="">
+              <!-- *ngFor='let preview of previews' -->
+            </div>
+            <div class="col-12">
+              <label class="btn btn-default p-0">
+                <input type="file" accept="image/*" (change)="selectFiles($event)" />
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="input-group mb-3">
+            <span class="input-group-text-form input-group-text" id="labelCategoryName">Tên danh mục sản phẩm</span>
+            <input id="categoryName" type="text" class="form-control" name="categoryName"
+                   formControlName="categoryName" aria-describedby="labelCategoryName"/>
+          </div>
+          <div class="alert-danger input-group" *ngIf="formControl['categoryName'].touched && formControl['categoryName'].invalid">
+            <div *ngIf="formControl['categoryName'].errors && formControl['categoryName'].errors['required']">
+              * Nhập tên danh mục
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row m-0">
+        <div class="col-6">
+          <a href="#" routerLink="/category/list" class="btn btn-secondary w-100">Hủy bỏ</a>
+        </div>
+        <div class="col-6">
+          <button class="btn btn-primary w-100" (click)="OnSubmit()">{{ categoryId ? 'Cập nhật' : 'Tạo mới'}}</button>
+        </div>
+      </div>
+      <div class="col-12">
+        <div *ngIf="message.length" class="alert alert-secondary my-3" role="alert">
+          <ul *ngFor="let msg of message; let i = index">
+            <li>{{ msg }}</li>
+          </ul>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+

@@ -1,0 +1,49 @@
+<div class="container">
+  <h5 class="text-center mt-3">Danh mục sản phẩm</h5>
+  <div class="d-flex my-2">
+    <a href="#" routerLink="/category/add" class="btn btn-outline-success ms-auto">Tạo mới danh mục</a>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-bordered p-0 m-0 table-class">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Tên danh mục</th>
+        <th scope="col">Hình ảnh đại diện</th>
+        <th scope="col">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr scope="row" *ngFor="let category of category">
+        <td>{{ category?.id }}</td>
+        <td>{{ category?.categoryName }}</td>
+        <td>
+          <img src="{{category?.url}}" class="preview">
+        </td>
+        <td>
+          <a href="#" [routerLink]="['/category/', category?.id, 'view']" class="btn btn-info m-1">Xem chi tiết</a>
+          <a href="#" [routerLink]="['/category/', category?.id, 'edit']" class="btn btn-primary m-1">Chỉnh sửa</a>
+          <button type="button" (click)="openModal(content,category.id)" class="btn btn-danger m-1"
+                  data-bs-toggle="modal" data-bs-target="#deleteCategory" title="Xóa danh mục">Xóa</button>
+        </td>
+      </tr>
+      <tr scope="row" *ngIf="category.length === 0">
+        <td colspan="6" class="text-center">Không có dữ liệu</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h5 class="modal-title text-danger" id="categoryDelete">Xác nhận xóa danh mục sản phẩm</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="d('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <p>Danh mục sản phẩm sẽ bị xóa khỏi hệ thống. Bạn xác nhận muốn xóa?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" (click)="d('Cross click')">Đóng</button>
+      <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" (click)="c('yes')">Đồng ý</button>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,77 @@
+<div class="col-md-12">
+  <div class="card card-container">
+    <img id="profile-img" src="./assets/img/image.jpeg" class="profile-img-card" alt=""/>
+    <form [formGroup]="registerForm" novalidate>
+      <div class="form-group">
+        <label for="displayName">Tên hiển thị</label>
+        <input id="displayName" type="text" class="form-control" formControlName="displayName" name="displayName"
+               [ngClass]="{ 'is-invalid': formControl['displayName'].errors  && (submitted || formControl['displayName'].touched)}"/>
+        <div *ngIf="formControl['displayName'].errors  && (submitted || formControl['displayName'].touched)" class="invalid-feedback">
+          <div *ngIf="formControl['displayName'].errors['required']">Nhập tên hiển thị</div>
+          <div *ngIf="formControl['displayName'].errors['minlength']">Tên hiển thị tối thiểu 03 ký tự</div>
+          <div *ngIf="formControl['displayName'].errors['maxlength']">Tên hiển thị tối đa 20 ký tự</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email">Thư điện tử</label>
+        <input id="email" type="email" class="form-control" name="email" formControlName="email"
+               [ngClass]="{ 'is-invalid': formControl['email'].errors  && (submitted || formControl['email'].touched)}"/>
+        <div *ngIf="formControl['email'].errors  && (submitted || formControl['email'].touched)" class="invalid-feedback">
+          <div *ngIf="formControl['email'].errors['required']">Nhập thư điện tử</div>
+          <div *ngIf="formControl['email'].errors['pattern']">Nhập thư điện tử hợp lệ</div>
+        </div>
+      </div>
+      <!--      <div class="form-group">-->
+      <!--        <label for="phoneNumber">Số điện thoại</label>-->
+      <!--        <input id="phoneNumber" type="phone" class="form-control" name="phoneNumber" formControlName="phoneNumber" phoneMask-->
+      <!--               [ngClass]="{ 'is-invalid': formControl['phoneNumber'].errors  && (submitted || formControl['phoneNumber'].touched)}" />-->
+      <!--        <div *ngIf="formControl['phoneNumber'].errors  && (submitted || formControl['phoneNumber'].touched)" class="invalid-feedback">-->
+      <!--          <div *ngIf="formControl['phoneNumber'].errors['required']">Nhập số điện thoại</div>-->
+      <!--          <div *ngIf="formControl['phoneNumber'].errors['pattern']">Nhập số điện thoại hợp lệ</div>-->
+      <!--        </div>-->
+      <!--      </div>-->
+      <div class="form-group">
+        <label for="password">Mật khẩu</label>
+        <input id="password" type="password" class="form-control" name="password" formControlName="password"
+               [ngClass]="{ 'is-invalid': formControl['password'].errors  && (submitted || formControl['password'].touched)}" />
+        <div *ngIf="formControl['password'].errors  && (submitted || formControl['password'].touched)" class="invalid-feedback">
+          <div *ngIf="formControl['password'].errors['required']">Nhập mật khẩu</div>
+          <div *ngIf="formControl['password'].errors['minlength']">Mật khẩu có tối thiểu 06 ký tự</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="matchingPassword">Xác thực mật khẩu</label>
+        <input id="matchingPassword" type="password" class="form-control" name="matchingPassword" formControlName="matchingPassword"
+               [ngClass]="{ 'is-invalid': formControl['matchingPassword'].errors  && (submitted || formControl['matchingPassword'].touched)}" />
+        <div *ngIf="formControl['matchingPassword'].errors  && (submitted || formControl['matchingPassword'].touched)" class="invalid-feedback">
+          <div *ngIf="formControl['matchingPassword'].errors['required']">Nhập xác thực mật khẩu</div>
+          <div *ngIf="formControl['matchingPassword'].errors['confirmedValidator']">Mật khẩu và mật khẩu xác thực phải khớp</div>
+        </div>
+      </div>
+<!--      <div class="form-group form-check">-->
+<!--        <input id="using2FA" type="checkbox" class="form-check-input" name="using2FA" formControlName="using2FA" />-->
+<!--        <label class="form-check-label" for="using2FA">Sử dụng xác minh hai bước</label>-->
+<!--      </div>-->
+      <div class="form-group d-grid mt-2">
+        <div class="row">
+          <div class="col-6">
+            <button class="btn btn-danger w-100" (click)="clearForm()">Hủy bỏ</button>
+          </div>
+          <div class="col-6">
+            <button class="btn btn-primary btn-block w-100" (click)="onSubmit()">Đăng ký</button>
+          </div>
+        </div>
+      </div>
+      <div class="alert alert-warning" *ngIf="formControl.submitted && isSignUpFailed">
+        Đăng ký thất bại!<br />{{ errorMessage }}
+      </div>
+    </form>
+    <div class="alert alert-success" *ngIf="isSuccessful">
+      Đăng ký thành công! Chúng tôi đã gửi cho bạn một thư xác thực đến tài khoản thư điện tử của bạn.
+<!--      <div *ngIf="isUsing2FA">-->
+<!--        <p>Quét mã QR này bằng ứng dụng Google Authenticator trên điện thoại của bạn để sử dụng xác minh hai bước khi đăng nhập</p>-->
+<!--        <img src="{{qrCodeImage}}" class="img-fluid" />-->
+<!--      </div>-->
+    </div>
+  </div>
+</div>

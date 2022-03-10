@@ -1,0 +1,21 @@
+<div class="container">
+  <h5 class="text-center">PRODUCT DETAILS</h5>
+  <div class="table-responsive">
+    <table class="table table-bordered p-0 m-0">
+      <tbody>
+      <tr scope="row">
+        <th>ID</th>
+        <td>{{ category?.id }}</td>
+      </tr>
+      <tr scope="row">
+        <th>Tên danh mục sản phẩm</th>
+        <td>{{ category?.categoryName }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="d-flex">
+    <a href="#" routerLink="/category/list" class="btn btn-primary mt-2 w-100">Quay lại</a>
+  </div>
+</div>

@@ -1,0 +1,74 @@
+<div class="card card-container form">
+  <h5 class="text-center">{{ id ? 'Cập nhật' : 'Tạo mới'}} Sản phẩm</h5>
+  <div class="row">
+    <form [formGroup]="productForm" class="col s12">
+      <div class="row">
+        <div class="col s12">
+          <label for="productName">Tên sản phẩm</label>
+          <input id="productName" type="text" class="form-control" name="productName" formControlName="productName"/>
+          <div class="alert-danger" *ngIf="formControl['productName'].touched && formControl['productName'].invalid">
+            <div *ngIf="formControl['productName'].errors && formControl['productName'].errors['required']">* Bắt buộc</div>
+            <div *ngIf="formControl['productName'].errors && formControl['productName'].errors['minlength']">Độ dài tối thiểu là
+              {{formControl['productName'].errors['minlength.requiredLength']}}
+              và thực tế là {{formControl['productName'].errors['minlength.actualLength']}}
+            </div>
+            <div *ngIf="formControl['productName'].errors && formControl['productName'].errors['maxlength']">Độ tài tối đa là
+              {{formControl['productName'].errors['maxlength.requiredLength']}}
+              và thực tế là {{formControl['productName'].errors['maxlength.actualLength']}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <label for="productDescription">Mô tả</label>
+          <input id="productDescription" type="text" class="form-control" name="productDescription" formControlName="productDescription" />
+          <div class="alert-danger" *ngIf="formControl['productDescription'].touched && formControl['productDescription'].invalid">
+            <div *ngIf="formControl['productDescription'].errors && formControl['productDescription'].errors['required']">* Bắt buộc</div>
+            <div *ngIf="formControl['productDescription'].errors && formControl['productDescription'].errors['minlength']">Độ dài tối thiểu là
+              {{formControl['productDescription'].errors['minlength.requiredLength']}} và thực tế là
+              {{formControl['productDescription'].errors['minlength.actualLength']}}
+            </div>
+            <div *ngIf="formControl['productDescription'].errors && formControl['productDescription'].errors['maxlength']">Độ tài tối đa là
+              {{formControl['productDescription'].errors['maxlength.requiredLength']}} và thực tế là
+              {{formControl['productDescription'].errors['maxlength.actualLength']}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+
+      </div>
+      <br />
+      <div style="display:flex" class="spacing-bottom">
+        <button
+          multiple
+          type="button"
+          color="primary"
+          (click)="onUploadImageButtonClick()"
+        >
+        </button>
+        <span style="display: flex;align-items: center;margin-left: 15px;">
+          {{
+          imageName
+          }}
+        </span>
+        <input
+          name="image"
+          type="file"
+          (change)="onFileChange()"
+          hidden
+          #inputImage
+        />
+      </div>
+      <div *ngIf="imageDataUrl">
+        <img style="display: block;max-width: 100%;" [src]="imageDataUrl" />
+      </div>
+      <div class="d-flex gap-2">
+        <a href="#" routerLink="/product/list" class="btn btn-secondary w-100">Hủy bỏ</a>
+        <button class="btn btn-primary w-100" (click)="onSubmit()">{{ id ? 'Cập nhật' : 'Tạo mới'}}</button>
+      </div>
+      <div class="alert alert-warning" *ngIf="errorMessage">Failed: {{ errorMessage }}</div>
+    </form>
+  </div>
+</div>
+

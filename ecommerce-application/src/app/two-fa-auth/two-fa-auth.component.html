@@ -1,0 +1,29 @@
+<div class="col-md-12">
+  <div class="card card-container">
+    <img id="profile-img" src="./assets/img/image.jpeg" class="profile-img-card" alt=""/>
+    <form [formGroup]="twoFaOauthForm" novalidate>
+      <div class="form-group">
+        <label for="code">Nhập mã xác thực gồm 6 chữ số từ ứng dụng xác thực của bạn</label>
+        <input id="code" type="text" class="form-control" name="code" formControlName="code"
+               [ngClass]="{ 'is-invalid': formControl['code'].errors  && (submitted || formControl['code'].touched)}" />
+        <div *ngIf="formControl['code'].errors  && (submitted || formControl['code'].touched)" class="invalid-feedback">
+          <div *ngIf="formControl['code'].errors['required']">Nhập mã xác thực</div>
+          <div *ngIf="formControl['code'].errors['minlength']">Mã xác thực có ít nhất 06 ký tự</div>
+        </div>
+      </div>
+      <div class="form-group mt-2">
+        <div class="row">
+          <div class="col-6">
+            <button class="btn btn-danger w-100" (click)="clearForm()">Xóa mã</button>
+          </div>
+          <div class="col-6">
+            <button class="btn btn-primary w-100" (click)="onSubmit()">Đăng nhập</button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="alert alert-danger" role="alert" *ngIf="isLoginFailed">Đăng nhập thất bại: {{ errorMessage }}</div>
+      </div>
+    </form>
+  </div>
+</div>
